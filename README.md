@@ -12,11 +12,15 @@ The .docx file supports csv variables, delineated with ``backticks``, and arbitr
 
 ![Image of letter generation](./img/letters.png)
 
-Files will be generated in the 'build' folder. **Please create a empty build folder in the directory first!**
-
 Anything wrapped in ``backticks`` will be grabbed from the CSV.
 
 Anything in `{{brackets}}` will be `eval()'ed`. I often find myself using `round()` and ternary expressions (`x if y else z`).
+
+## Important notes
+
+Files will be generated in the 'build' folder. **Please create a empty build folder in the directory first!**
+
+File names will be generated using the 'name' column of `data.csv`. The name of the files will be `letter_{name}.docx`. **Please ensure that your data.csv has a column called 'name'!**
 
 ## Example
 ```
