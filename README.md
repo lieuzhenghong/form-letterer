@@ -8,16 +8,17 @@ Each row corresponds to one document to be created.
 
 and a specially marked-up docx file.
 
-The .docx file supports csv variables, delineated with `backticks`, and arbitrary python code with {{brackets}}.
+The .docx file supports csv variables, delineated with ``backticks``, and arbitrary python code with `{{brackets}}`.
 
 ![Image of letter generation](./img/letters.png)
 
-Files will be generated in the 'build' folder.
+Files will be generated in the 'build' folder. **Please create a empty build folder in the directory first!**
 
-**Please create a empty build folder in the directory first!**
+Anything wrapped in ``backticks`` will be grabbed from the CSV.
 
-Anything wrapped in `backticks` will be grabbed from 
+Anything in `{{brackets}}` will be `eval()'ed`. I often find myself using `round()` and ternary expressions (`x if y else z`).
 
+## Example
 ```
 Dear `title`,
 
