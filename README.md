@@ -4,13 +4,13 @@
 You need a `data.csv` with header row.
 Each row corresponds to one document to be created.
 
-![Image of csv]('./img/data_csv.png')
+![Image of csv](./img/data_csv.png)
 
 and a specially marked-up docx file.
 
 The .docx file supports csv variables, delineated with `backticks`, and arbitrary python code with {{brackets}}.
 
-![Image of letter generation]('./img/letters.png')
+![Image of letter generation](./img/letters.png)
 
 Files will be generated in the 'build' folder.
 
