@@ -44,33 +44,36 @@ def replace_text(old, rep):
                 # within idx and end
                 run.text = ''
 
-file_name = input('Enter the file name here (must be in same directory: ')
+def generate_letters(csv_filename, letter_filename):
+    # Read the file and put it into an array
+    with open('{}.csv'.format(csv_filename), newline='') as csvfile:
+        reader = csv.reader(csvfile)
+        data = []
+        for idx, row in enumerate(reader):
+            if idx == 0:
+                headers = row
+            else:
+                data.append(row)
 
-# Read the file and put it into an array
-with open('data.csv', newline='') as csvfile:
-    reader = csv.reader(csvfile)
-    data = []
-    for idx, row in enumerate(reader):
-        if idx == 0:
-            headers = row
-        else:
-            data.append(row)
+    for idx, row in enumerate(data):
+        document = Document('{}.docx'.format(letter_filename))
+        for para in document.paragraphs:
+            m = re.findall(r'`(.+?)`', para.text)
+            for match in m:
+                # Find the start and end of the substring
+                rep = str(row[headers.index(match)])
+                n = '`'+match+'`'
+                replace_text(n, rep)
 
-for idx, row in enumerate(data):
-    document = Document('{}.docx'.format(file_name))
-    for para in document.paragraphs:
-        m = re.findall(r'`(.+?)`', para.text)
-        for match in m:
-            # Find the start and end of the substring
-            rep = str(row[headers.index(match)])
-            n = '`'+match+'`'
-            replace_text(n, rep)
+        for para in document.paragraphs:
+            m = re.findall(r'{{(.+?)}}', para.text)
+            for match in m:
+                match2 = match.replace('‘', "'")
+                match2 = match2.replace('’', "'")
+                x = str(eval(match2))
+                replace_text('{{' + match + '}}', x)
+        document.save('./build/{0}_{1}.docx'.format(letter_filename, row[headers.index('name')]))
 
-    for para in document.paragraphs:
-        m = re.findall(r'{{(.+?)}}', para.text)
-        for match in m:
-            match2 = match.replace('‘', "'")
-            match2 = match2.replace('’', "'")
-            x = str(eval(match2))
-            replace_text('{{' + match + '}}', x)
-    document.save('./build/letter_{}.docx'.format(row[headers.index('name')]))
+if __name__ == '__main__':
+    import sys
+    generate_letters(sys.argv[1], sys.argv[2])
