@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<title> Press Go </title>
+<script type = 'text/javascript'>
+    function sendGenerateRequest() {
+        // Send a GET request to the server
+        var csv = document.getElementById('data').value;
+        var docx = document.getElementById('letter').value;
+        var ip = document.getElementById('ip').value
+        if (csv === '') {
+            csv = 'data';
+        }
+        if (docx === '') {
+            docx = 'letter';
+        }
+
+        var xhr = new XMLHttpRequest();
+        xhr.open('GET', 'http://' + ip + '/run?data=' + csv + '&letter=' + docx, true);
+        xhr.onload = (e) => {
+            if (xhr.readyState === 4) {
+                t = new Date(Date.now());
+                if (xhr.responseText == 'OK') {
+                    document.getElementById('info').innerHTML = '<p><font color = "green">' + t.getHours() + ':' + t.getMinutes() + ':' + t.getSeconds() + ' ' + 'Files created!</font>' + document.getElementById('info').innerHTML;
+                }
+                else {
+                    document.getElementById('info').innerHTML = '<p><font color = "red">' + t.getHours() + ':' + t.getMinutes() + ':' + t.getSeconds() + ' ' + xhr.responseText + document.getElementById('info').innerHTML;
+                }
+            }
+        }
+        xhr.onerror = () => {
+            console.log('error') 
+        }
+        xhr.send(null);
+    }
+</script>
+
+<style>
+    body, html {
+        padding: 0;
+        margin: 0 auto;
+    }
+    body {
+        max-width: 600px;
+        padding-left: 20px;
+        padding-right: 20px;
+    }
+    button {
+        font-size: 2rem;
+        font-weight: 600;
+        min-width: 200px;
+        min-height: 100px;
+        border: 5px solid grey;
+        border-radius: 2rem;
+    }
+    input[type=text] {
+        border: 5px solid grey;
+        font-size: 2rem;
+        display: block;
+    }
+</style>
+<div id = 'info'>
+<h2> Logs </h2>
+</div>
+<p><label>CSV filename <input id = 'data' type='text' placeholder='data' value='data'></input>
+<p><label>DOCX letter filename<input id = 'letter' type='text' placeholder='letter' value='letter'></input>
+<p><label>IP address<input id = 'ip' type='text' placeholder='192.168.1.7:5000' value='192.168.1.13:5000'></input>
+
+<p><button onclick="sendGenerateRequest()">Go</button>

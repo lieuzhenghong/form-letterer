@@ -3,7 +3,7 @@ import re
 from docx import Document
 
 
-def replace_text(old, rep):
+def replace_text(para, old, rep):
     '''
     Replaces a string with another.
     Supports cross-run replacement.
@@ -44,26 +44,39 @@ def replace_text(old, rep):
                 # within idx and end
                 run.text = ''
 
+
 def generate_letters(csv_filename, letter_filename):
     # Read the file and put it into an array
-    with open('{}.csv'.format(csv_filename), newline='') as csvfile:
-        reader = csv.reader(csvfile)
-        data = []
-        for idx, row in enumerate(reader):
-            if idx == 0:
-                headers = row
-            else:
-                data.append(row)
-
+    try:
+        with open('{}.csv'.format(csv_filename), newline='') as csvfile:
+            reader = csv.reader(csvfile)
+            data = []
+            for idx, row in enumerate(reader):
+                if idx == 0:
+                    headers = row
+                else:
+                    data.append(row)
+    except FileNotFoundError as error:
+        print('<h2> ERROR: File {}.csv not found.'.format(csv_filename))
+        return('<h2> ERROR: File {}.csv not found.'.format(csv_filename))
+    except PermissionError as error:
+        return('<h2> PERMISSION ERROR: ' + str(error) '</h2><p>You have a file open and so the program cannot run. Make sure to close all csv files before running the program.') 
     for idx, row in enumerate(data):
-        document = Document('{}.docx'.format(letter_filename))
+        try:
+            document = Document('{}.docx'.format(letter_filename))
+        except: 
+            print('ERROR: File {}.docx not found.'.format(letter_filename))
+            return('ERROR: File {}.docx not found.'.format(letter_filename))
         for para in document.paragraphs:
             m = re.findall(r'`(.+?)`', para.text)
             for match in m:
                 # Find the start and end of the substring
-                rep = str(row[headers.index(match)])
+                try:
+                    rep = str(row[headers.index(match)])
+                except ValueError as error:
+                    return('<h2>VALUE ERROR: ' + str(error) + '</h2><p>This often means that your word document has a thing surrounded by backticks that does not exist in your CSV. Check again.')
                 n = '`'+match+'`'
-                replace_text(n, rep)
+                replace_text(para, n, rep)
 
         for para in document.paragraphs:
             m = re.findall(r'{{(.+?)}}', para.text)
@@ -71,8 +84,12 @@ def generate_letters(csv_filename, letter_filename):
                 match2 = match.replace('‘', "'")
                 match2 = match2.replace('’', "'")
                 x = str(eval(match2))
-                replace_text('{{' + match + '}}', x)
-        document.save('./build/{0}_{1}.docx'.format(letter_filename, row[headers.index('name')]))
+                replace_text(para, '{{' + match + '}}', x)
+        try:
+            document.save('./build/{0}_{1}.docx'.format(letter_filename, row[headers.index('name')]))
+        except PermissionError as error:
+            return('<h2> PERMISSION ERROR: ' + str(error) '</h2><p>You have a file open and so the program cannot run. Make sure to close all docx files before running the program.') 
+    return('OK')
 
 if __name__ == '__main__':
     import sys
