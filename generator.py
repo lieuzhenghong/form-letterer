@@ -59,8 +59,8 @@ def generate_letters(csv_filename, letter_filename):
                         data.append(row)
         except PermissionError as error:
             return('<b> PERMISSION ERROR: ' + str(error) + '</b><p>You have a'
-                   'csv file open and so the program cannot run. Make sure to'
-                   'close all' 'csv files before running the program.')
+                   ' csv file open and so the program cannot run. Make sure to'
+                   ' close all' 'csv files before running the program.')
         except FileNotFoundError as error:
             return('<b>FILE NOT FOUND ERROR</b>:'
                    'File {}.csv not found.'.format(csv_filename))
@@ -72,8 +72,8 @@ def generate_letters(csv_filename, letter_filename):
             except PermissionError as error:
                 return('<b>PERMISSION ERROR: ' + str(error) + '</b><p>'
                        'You have a'
-                       'file open and so the program cannot run. Make sure to'
-                       'close\ all docx files before running the program.')
+                       ' file open and so the program cannot run. Make sure to'
+                       ' close\ all docx files before running the program.')
             for para in document.paragraphs:
                 m = re.findall(r'`(.+?)`', para.text)
                 for match in m:
@@ -82,9 +82,11 @@ def generate_letters(csv_filename, letter_filename):
                         rep = str(row[headers.index(match)])
                     except ValueError as error:
                         return('<b>VALUE ERROR: ' + str(error) + '</b><p>This'
-                               'often\ means that your word document has a'
-                               'thing surrounded\ by backticks that does not'
-                               'exist in your CSV. Check\ again.')
+                               ' means that your word document has `' + match +
+                               '` which does not '
+                               'exist in your CSV. The guilty paragraph is:<p>' +
+                               para.text +
+                               '<p>Check\ again.')
                     n = '`'+match+'`'
                     replace_text(para, n, rep)
 
@@ -100,8 +102,8 @@ def generate_letters(csv_filename, letter_filename):
                               row[headers.index('name')]))
             except PermissionError as error:
                 return('<b>PERMISSION ERROR: ' + str(error) + '</b><p>You have'
-                       'a\ file open and so the program cannot run. Make sure'
-                       'to close\ all docx files before running the program.')
+                       ' a\ file open and so the program cannot run. Make sure'
+                       ' to close\ all docx files before running the program.')
         return('OK')
     except Exception as e:
         return(str(e))
