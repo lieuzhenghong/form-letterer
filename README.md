@@ -31,7 +31,17 @@ you can do things here like
 ```
 
 ## How to use
-First, create a `data.csv` with header row.
+
+1. `build/` folder
+2. `data.csv` data file
+3. `letter.docx` template file
+
+![Explanatory image of how Form Letterer works with folder layout](./img/overview2.png)
+
+First, **create an empty `build` folder in the same directory**, as the
+letters will be generated there.  
+
+Then, create a `data.csv` with header row.
 Each row corresponds to one document to be created.
 
 Here's an example of a `data.csv` data file.
@@ -42,7 +52,7 @@ File names will be generated using the 'name' column of `data.csv`. The name of
 the files will be `letter_{name}.docx`. **Please ensure that your data.csv has
 a column called 'name'!**
 
-Then, create a `letter.docx` file in the same directory.
+Lastly, create a `letter.docx` file in the same directory.
 
 The .docx file supports csv variables, delineated with ``backticks``, and
 arbitrary python code with `{{brackets}}`.
@@ -54,8 +64,6 @@ Anything wrapped in ``backticks`` will be grabbed from the CSV.
 Anything in `{{brackets}}` will be `eval()'ed`. I often find myself using
 `round()` and ternary expressions (`x if y else z`).
 
-Lastly. **create an empty `build` folder in the same directory.**, as the
-letters will be generated there.  
 
 ## Troubleshooting
 TODO
