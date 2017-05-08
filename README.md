@@ -1,4 +1,5 @@
 # form-letterer
+Creates Word documents from a template and data file.
 
 ## Introduction and motivation
 I was given a task to generate twenty-five very similar Word documents. They
@@ -30,7 +31,7 @@ you can do things here like
 {{'URGENT REMINDER' if `urgency` == 'urgent' else 'Reminder:'}} 
 ```
 
-## How to use
+## Setup
 
 1. `build/` folder
 2. `data.csv` data file
@@ -38,11 +39,18 @@ you can do things here like
 
 ![Explanatory image of how Form Letterer works with folder layout](./img/overview2.png)
 
-First, **create an empty `build` folder in the same directory**, as the
+
+### build/ folder
+First, **create an empty `build` folder in the shared directory**, as the
 letters will be generated there.  
 
-Then, create a `data.csv` with header row.
-Each row corresponds to one document to be created.
+### data.csv
+Create a `data.csv` in the same directory (**not inside
+build/!**)
+
+The first row of `data.csv` is a header row, which will be what your template
+word document refers to. Each subsequent row corresponds to one document to be
+created.
 
 Here's an example of a `data.csv` data file.
 
@@ -52,18 +60,33 @@ File names will be generated using the 'name' column of `data.csv`. The name of
 the files will be `letter_{name}.docx`. **Please ensure that your data.csv has
 a column called 'name'!**
 
-Lastly, create a `letter.docx` file in the same directory.
+### letter.docx
+Create a `letter.docx` file in the same directory.
 
 The .docx file supports csv variables, delineated with ``backticks``, and
 arbitrary python code with `{{brackets}}`.
 
 ![Image of letter generation](./img/letters.png)
 
-Anything wrapped in ``backticks`` will be grabbed from the CSV.
+Anything wrapped in ``backticks`` will be grabbed from the CSV's header row.
+For example, 
 
 Anything in `{{brackets}}` will be `eval()'ed`. I often find myself using
 `round()` and ternary expressions (`x if y else z`).
 
+### Running
+
+Once `build/`, `data.csv` and `letter.docx` are created, the software is ready
+to go.
+
+Finally, open the `index.html` file and fill it in. For iGlobe office, I have
+already filled in the IP address.
+
+![Image of index.html](./img/index.png)
+
+Press 'Go' and voila! If there are no mistakes in your files, you should see
+letters automagically appearing in the `build/` folder. It takes a while for it
+to show so please be patient.
 
 ## Troubleshooting
-TODO
+Call Zheng Hong at +65 8288 2107 or email me at lieuzhenghong@gmail.com
