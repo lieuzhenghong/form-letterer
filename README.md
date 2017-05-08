@@ -46,7 +46,7 @@ letters will be generated there.
 
 ### data.csv
 Create a `data.csv` in the same directory (**not inside
-build/!**)
+build/** !)
 
 The first row of `data.csv` is a header row, which will be what your template
 word document refers to. Each subsequent row corresponds to one document to be
@@ -69,7 +69,8 @@ arbitrary python code with `{{brackets}}`.
 ![Image of letter generation](./img/letters.png)
 
 Anything wrapped in ``backticks`` will be grabbed from the CSV's header row.
-For example, 
+For example, the program looked up `weapon` and changed it to 'rocket launcher'
+for that email.
 
 Anything in `{{brackets}}` will be `eval()'ed`. I often find myself using
 `round()` and ternary expressions (`x if y else z`).
