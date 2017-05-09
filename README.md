@@ -24,15 +24,16 @@ Essentially, it's a version of Word's Mail Merge.
 
 ## Why not Mail Merge?
 
-I didn't have Microsoft Word on my laptop at the time (lazy to dual boot). This
-solution doesn't need Microsoft Word and uses only free software.
+This solution doesn't need Microsoft Word and uses only free (in beer and in
+speech) software.
 
-As the solution is deployed on a local server, multiple users can use it
-without any prior configuration.
+This solution can be deployed on a local server which exposes only a thin GUI
+client. Multiple end-users can use it without having to configure their
+machine.
 
 Additionally, this solution allows for things that can't be done in Mail Merge
 like conditionals and arithmetic. Mail Merge is a simple search-and-replace but
-you can do things here like 
+here you can do things like 
 ```
 {{`amount1` * `amount2`}} # multiplication of data values
 # 'urgency' is a header row in your data file
@@ -104,8 +105,8 @@ your own risk.
 Once `build/`, `data.csv` and `letter.docx` are created, the software is ready
 to go.
 
-Finally, open the `index.html` file and fill it in. For iGlobe office, I have
-already filled in the IP address.
+If this solution is running on a local server, open the `index.html` file and
+fill it in. For iGlobe office, I have already filled in the IP address.
 
 ![Image of index.html](./img/index.png)
 
